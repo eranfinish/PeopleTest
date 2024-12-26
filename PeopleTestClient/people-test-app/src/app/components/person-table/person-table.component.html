@@ -1,0 +1,138 @@
+<div>
+  <h1>Person Management</h1>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!-- Columns -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="idNumber">
+      <th mat-header-cell *matHeaderCellDef> ID Number </th>
+      <td mat-cell *matCellDef="let element"> {{ element.idNumber }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let element"> {{ element.email }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="birthDate">
+      <th mat-header-cell *matHeaderCellDef> Birth Date </th>
+      <td mat-cell *matCellDef="let element"> {{ element.birthDate | date }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="gender">
+      <th mat-header-cell *matHeaderCellDef> Gender </th>
+      <td mat-cell *matCellDef="let element"> {{ element.gender || 'Not Specified' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef> Phone </th>
+      <td mat-cell *matCellDef="let element"> {{ element.phone }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element">
+        <!-- Delete Button -->
+        <button mat-icon-button (click)="deletePerson(element.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+
+        <!-- Edit Button -->
+        <button mat-icon-button (click)="editPersonDetails(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div class="form" *ngIf="!isEditingPerson">
+    <h2>Add New Person</h2>
+    <mat-form-field>
+      <mat-label>ID Number</mat-label>
+      <input matInput [(ngModel)]="newPerson.idNumber" required />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="newPerson.email" type="email" required />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Phone</mat-label>
+      <input matInput [(ngModel)]="newPerson.phone" type="tel" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Gender</mat-label>
+      <mat-select [(ngModel)]="newPerson.gender" name="gender">
+        <mat-option value="male">Male</mat-option>
+        <mat-option value="female">Female</mat-option>
+        <mat-option value="else">Else</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Full Name</mat-label>
+      <input matInput placeholder="Enter your name" [(ngModel)]="newPerson.name" name="name" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Birth Date</mat-label>
+      <input matInput [(ngModel)]="newPerson.birthDate" type="date" required />
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="addPerson()">Add Person</button>
+  </div>
+
+
+<div class="form" *ngIf="isEditingPerson">
+  <h2>Edit {{selectedPerson.name}}</h2>
+
+  <mat-form-field>
+    <mat-label>ID Number</mat-label>
+    <input matInput [(ngModel)]="selectedPerson.idNumber" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Full Name</mat-label>
+    <input matInput placeholder="Enter your name" [(ngModel)]="selectedPerson.name" name="name" />
+  </mat-form-field>
+
+
+  <mat-form-field>
+  <mat-label>Phone</mat-label>
+    <input matInput [(ngModel)]="selectedPerson.phone" type="tel" required />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput [(ngModel)]="selectedPerson.email" type="email" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Gender</mat-label>
+    <mat-select [(ngModel)]="selectedPerson.gender" name="gender">
+      <mat-option value="male">Male</mat-option>
+      <mat-option value="female">Female</mat-option>
+      <mat-option value="else">Else</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Birth Date</mat-label>
+    <input matInput [(ngModel)]="selectedPerson.birthDate" type="date" required />
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="updatePerson()">Update Person</button>
+</div>
+</div>
+
